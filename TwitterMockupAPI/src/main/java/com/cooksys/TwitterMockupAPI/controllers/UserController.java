@@ -1,5 +1,4 @@
 package com.cooksys.TwitterMockupAPI.controllers;
 
-public class placeHolder {
-    
+public class UserController {
 }
