@@ -1,14 +1,11 @@
 package com.cooksys.TwitterMockupAPI.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+@Table(name="tweet_user")
 @Entity
 @NoArgsConstructor
 @Data
@@ -34,7 +31,7 @@ public class User {
 
     private String phone;
 
-    @OneToMany(mappedBy = "tweet")
-    private List<Tweet> tweets;
+//    @OneToMany(mappedBy = "tweet")
+//    private List<Tweet> tweets;
 
 }

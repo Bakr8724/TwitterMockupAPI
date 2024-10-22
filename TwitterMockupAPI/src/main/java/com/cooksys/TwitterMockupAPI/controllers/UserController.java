@@ -15,55 +15,55 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public List<UserResponseDto> getAllUsers() {
-        return userService.getAllActiveUsers();
-    }
+//    @GetMapping
+//    public List<UserResponseDto> getAllUsers() {
+//        return userService.getAllActiveUsers();
+//    }
+//
+//    @PostMapping
+//    public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
+//        return userService.createUser(userRequestDto);
+//    }
 
-    @PostMapping
-    public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
-        return userService.createUser(userRequestDto);
-    }
-
-    @GetMapping("/{username}")
+   // @GetMapping("/{username}")
   //  public List<UserResponseDto> getAllUsers() {
  //       return userService.getAllActiveUsers();
     //}
 
-    @PatchMapping("/{username}") {
-        public UserResponseDto
-    }
-
-    @DeleteMapping("/{username}"){
-
-    }
-
-    @PostMapping("/{username}/follow"){
-
-    }
-
-    @PostMapping("/{username}/unfollow"){
-
-    }
-
-    @GetMapping("/{username}/feed"){
-
-    }
-
-    @GetMapping("/{username}/tweets"){
-
-    }
-
-    @GetMapping("/{username}/mentions"){
-
-    }
-
-    @GetMapping("/{username}/followers"){
-
-    }
-
-    @GetMapping("/{username}/following"){
-
-    }
+//    @PatchMapping("/{username}") {
+//        public UserResponseDto
+//    }
+//
+//    @DeleteMapping("/{username}"){
+//
+//    }
+//
+//    @PostMapping("/{username}/follow"){
+//
+//    }
+//
+//    @PostMapping("/{username}/unfollow"){
+//
+//    }
+//
+//    @GetMapping("/{username}/feed"){
+//
+//    }
+//
+//    @GetMapping("/{username}/tweets"){
+//
+//    }
+//
+//    @GetMapping("/{username}/mentions"){
+//
+//    }
+//
+//    @GetMapping("/{username}/followers"){
+//
+//    }
+//
+//    @GetMapping("/{username}/following"){
+//
+//    }
 
 }

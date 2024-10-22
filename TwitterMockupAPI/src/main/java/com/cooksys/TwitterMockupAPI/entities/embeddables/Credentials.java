@@ -1,4 +1,4 @@
-package com.cooksys.TwitterMockupAPI.entities;
+package com.cooksys.TwitterMockupAPI.entities.embeddables;
 
 import jakarta.persistence.Embeddable;
 
