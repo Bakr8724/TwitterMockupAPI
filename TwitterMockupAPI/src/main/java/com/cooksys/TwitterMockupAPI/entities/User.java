@@ -41,18 +41,18 @@ public class User {
     @Embedded
     private Credentials credentials;
 
-  @OneToMany(mappedBy = "tweet")
-   private List<Tweet> tweets;
+//  @OneToMany(mappedBy = "tweet")
+//   private List<Tweet> tweets;
 
     @OneToMany
     @JoinTable(name = "followers_following", joinColumns = @JoinColumn(name="follower_id"), inverseJoinColumns = @JoinColumn(name="following_id"))
     private List<User> users;
 
-    @OneToMany
-    @JoinTable(name = "user_likes", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="tweet_id"))
-    private List<User> likes;
-
-    @OneToMany
-    @JoinTable(name = "user_mentions", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="tweet_id"))
-    private List<User> mentions;
+//    @OneToMany
+//    @JoinTable(name = "user_likes", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="tweet_id"))
+//    private List<Tweet> likes;
+//
+//    @OneToMany
+//    @JoinTable(name = "user_mentions", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="tweet_id"))
+//    private List<Tweet> mentions;
 }
