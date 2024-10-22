@@ -19,21 +19,21 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    private String username;
+    //private String username;
 
-    private String password;
+    //private String password;
 
     private java.sql.Timestamp joined;
 
     private boolean deleted;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String phone;
+//    private String firstName;
+//
+//    private String lastName;
+//
+//    private String email;
+//
+//    private String phone;
 
     @Embedded
     private Profile profile;
@@ -47,6 +47,9 @@ public class User {
     @OneToMany
     @JoinTable(name = "followers_following", joinColumns = @JoinColumn(name="follower_id"), inverseJoinColumns = @JoinColumn(name="following_id"))
     private List<User> users;
+
+//    @ManyToOne
+//    @JoinTable
 
 //    @OneToMany
 //    @JoinTable(name = "user_likes", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="tweet_id"))
