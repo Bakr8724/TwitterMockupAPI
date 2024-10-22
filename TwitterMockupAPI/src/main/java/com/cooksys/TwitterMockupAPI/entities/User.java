@@ -3,6 +3,7 @@ package com.cooksys.TwitterMockupAPI.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,5 +33,8 @@ public class User {
     private String email;
 
     private String phone;
+
+    @OneToMany(mappedBy = "tweet")
+    private List<Tweet> tweets;
 
 }
