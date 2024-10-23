@@ -7,5 +7,6 @@ import com.cooksys.TwitterMockupAPI.entities.Hashtag;
 
 @Repository
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
+    boolean existsByLabel(String label);
 
 }

@@ -8,8 +8,8 @@ import java.util.List;
 public interface UserService {
 
 //   List<UserResponseDto> getAllActiveUsers();
-//
-//   UserResponseDto createUser(UserRequestDto userRequestDto);
+
+   UserResponseDto createUser(UserRequestDto userRequestDto);
 
    //UserResponseDto getSpecificUser();
 }

@@ -20,12 +20,12 @@ public class UserController {
 //        return userService.getAllActiveUsers();
 //    }
 //
-//    @PostMapping
-//    public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
-//        return userService.createUser(userRequestDto);
-//    }
+    @PostMapping
+    public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
+        return userService.createUser(userRequestDto);
+    }
 
-   // @GetMapping("/{username}")
+   // @GetMapping("/@{username}")
   //  public List<UserResponseDto> getAllUsers() {
  //       return userService.getAllActiveUsers();
     //}

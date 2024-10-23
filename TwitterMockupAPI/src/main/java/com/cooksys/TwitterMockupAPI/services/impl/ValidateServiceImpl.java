@@ -1,5 +1,7 @@
 package com.cooksys.TwitterMockupAPI.services.impl;
 
+import com.cooksys.TwitterMockupAPI.repositories.HashtagRepository;
+import com.cooksys.TwitterMockupAPI.repositories.UserRepository;
 import com.cooksys.TwitterMockupAPI.services.ValidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,18 +10,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ValidateServiceImpl implements ValidateService {
 
+    private final HashtagRepository hashtagRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public boolean getHashtagExists(String label){
+        String hashtagLabel = "#" + label;
+    return hashtagRepository.existsByLabel(hashtagLabel);
+    }
+
 //    @Override
-//    public validateHashTag(){
-//
-//    }
-//
-//    @Override
-//    public validateUserName(){
-//
-//    }
-//
-//    @Override
-//    public isUserNameAvailable(){
-//
+//    public boolean isUserNameAvailable(String username){
+//        return userRepository.userExists(username);
 //    }
 }
