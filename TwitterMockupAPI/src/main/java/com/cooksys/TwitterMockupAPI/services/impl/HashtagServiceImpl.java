@@ -2,8 +2,7 @@ package com.cooksys.TwitterMockupAPI.services.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.cooksys.TwitterMockupAPI.dtos.HashtagRequestDto;
-import com.cooksys.TwitterMockupAPI.dtos.HashtagResponseDto;
+import com.cooksys.TwitterMockupAPI.dtos.HashtagDto;
 import com.cooksys.TwitterMockupAPI.entities.Hashtag;
 import com.cooksys.TwitterMockupAPI.services.HashtagService;
 
@@ -19,7 +18,7 @@ public class HashtagServiceImpl implements HashtagService {
     }
 
     @Override
-    public HashtagResponseDto createHashtag(HashtagRequestDto hashtagRequestDto) {
+    public HashtagDto createHashtag(HashtagDto hashtagRequestDto) {
         return null;
     }
 }

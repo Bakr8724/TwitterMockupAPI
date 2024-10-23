@@ -1,6 +1,5 @@
 package com.cooksys.TwitterMockupAPI.dtos;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
