@@ -8,7 +8,7 @@ import com.cooksys.TwitterMockupAPI.dtos.TweetRequestDto;
 import com.cooksys.TwitterMockupAPI.dtos.TweetResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.Tweet;
 
-@Mapper(componentModel= "spring")
+@Mapper(componentModel= "spring", uses = {UserMapper.class})
 public interface TweetMapper {
     Tweet requestDtoToEntity(TweetRequestDto tweetRequestDto);
 

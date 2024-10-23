@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.TwitterMockupAPI.dtos.HashtagRequestDto;
-import com.cooksys.TwitterMockupAPI.dtos.HashtagResponseDto;
+import com.cooksys.TwitterMockupAPI.dtos.HashtagDto;
 import com.cooksys.TwitterMockupAPI.services.HashtagService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/hashtags")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HashtagController {
 
     private HashtagService hashtagService;
@@ -24,7 +23,7 @@ public class HashtagController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HashtagResponseDto createHashtag(@RequestBody HashtagRequestDto hashtagRequestDto) {
-        return hashtagService.createHashtag(hashtagRequestDto);
+    public HashtagDto createHashtag(@RequestBody HashtagDto hashtagDto) {
+        return hashtagService.createHashtag(hashtagDto);
     }
 }

@@ -1,5 +1,7 @@
 package com.cooksys.TwitterMockupAPI.dtos;
 
+import java.sql.Timestamp;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,17 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserResponseDto {
 
-    private Long id;
-
-    private String username;
-
-    private String password;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String phone;
+	private String username;
+    private ProfileDto profile;
+    private Timestamp joined;
 }
