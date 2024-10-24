@@ -6,6 +6,7 @@ import com.cooksys.TwitterMockupAPI.entities.User;
 import com.cooksys.TwitterMockupAPI.entities.embeddables.Credentials;
 import com.cooksys.TwitterMockupAPI.entities.embeddables.Profile;
 import com.cooksys.TwitterMockupAPI.exceptions.BadRequestException;
+import com.cooksys.TwitterMockupAPI.exceptions.NotFoundException;
 import com.cooksys.TwitterMockupAPI.mappers.CredentialsMapper;
 import com.cooksys.TwitterMockupAPI.mappers.ProfileMapper;
 import com.cooksys.TwitterMockupAPI.mappers.UserMapper;
@@ -86,6 +87,23 @@ public UserResponseDto updateUser(String username, UserRequestDto userRequestDto
 
    User updatedUser = userRepository.save(existingUser);
    return userMapper.entityToDto(updatedUser);
+}
+
+@Override
+public UserResponseDto deleteUser(String username){
+
+    Optional<User> optionalUser = userRepository.findByCredentialsUsername(username);
+
+    if(optionalUser.isEmpty() || optionalUser.get().isDeleted()){
+        throw new NotFoundException("User does not exist");
+    }
+
+
+
+    User toDeleteUser = optionalUser.get();
+    toDeleteUser.setDeleted(true);
+    User deleteUser = userRepository.save(toDeleteUser);
+    return userMapper.entityToDto(deleteUser);
 }
 
 

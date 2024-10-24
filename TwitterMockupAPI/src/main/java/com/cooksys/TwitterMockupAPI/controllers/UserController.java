@@ -34,10 +34,12 @@ public class UserController {
 
     }
 
-//    @DeleteMapping("/{username}"){
-//
-//    }
-//
+    @DeleteMapping("/{username}")
+    public UserResponseDto deleteUser(@PathVariable String username){
+        return userService.deleteUser(username);
+        }
+
+
 //    @PostMapping("/{username}/follow"){
 //
 //    }

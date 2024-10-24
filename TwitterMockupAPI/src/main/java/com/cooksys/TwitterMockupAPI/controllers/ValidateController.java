@@ -15,7 +15,7 @@ public class ValidateController {
     private final ValidateService validateService;
 
     @GetMapping("/tag/exists/{label}")
-    public boolean hashtagExists(@PathVariable String label){
+    public boolean getHashtagExists(@PathVariable String label){
         return validateService.getHashtagExists(label);
     }
 
