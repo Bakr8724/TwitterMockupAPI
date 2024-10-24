@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{username}")
-    public UserResponseDto deleteUser(@PathVariable String username, CredentialsDto credentialsDto){
+    public UserResponseDto deleteUser(@PathVariable String username, @RequestBody CredentialsDto credentialsDto){
         return userService.deleteUser(username, credentialsDto);
         }
 
@@ -45,14 +45,19 @@ public class UserController {
         return userService.followUser(username, credentialsDto);
     }
 
-//    @GetMapping("/{username}/feed")
-//    public List<TweetResponseDto> getFeed(@PathVariable String username){
-//    return tweetService.getFeed(username);
-//    }
+    @GetMapping("/{username}/feed")
+    public List<TweetResponseDto> getFeed(@PathVariable String username){
+    return userService.getFeed(username);
+    }
 
-    //    @GetMapping("/{username}/tweets")
-//    public List<UserResponseDto> getUserTweets(@PathVariable String username){
-//        return userService.getUserTweets(username);
-//    }
-//
+    @GetMapping("/{username}/tweets")
+    public List<TweetResponseDto> getUserTweets(@PathVariable String username){
+        return userService.getUserTweets(username);
+    }
+
+    @GetMapping("/{username}/following")
+    public List<UserResponseDto> getUserFollowing(@PathVariable String username){
+        return userService.getUserFollowing(username);
+    }
+
 }

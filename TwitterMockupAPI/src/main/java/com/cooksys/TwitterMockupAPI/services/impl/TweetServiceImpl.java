@@ -70,14 +70,12 @@ public class TweetServiceImpl implements TweetService {
     @Override
     public List<TweetResponseDto> getTweetReplies(Long id){
 
-        Optional<Tweet> parentTweet = tweetRepository.nonDeletedTweetsByID(id);
+        Optional<Tweet> tweetRepliedTo = tweetRepository.nonDeletedTweetsByID(id);
 
-        if(parentTweet.isEmpty() || parentTweet.get().isDeleted()){
+        if(tweetRepliedTo.isEmpty() || tweetRepliedTo.get().isDeleted()){
             throw new NotFoundException("Tweet not found");
         }
-
         List<Tweet> tweets = tweetRepository.findByInReplyToIdAndDeletedFalse(id);
-
 
         return tweetMapper.entitiesToResponseDtos(tweets);
     }

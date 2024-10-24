@@ -16,8 +16,10 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
     @Query("SELECT t FROM Tweet t WHERE t.id = :id AND t.deleted = false")
     Optional<Tweet> nonDeletedTweetsByID(Long id);
-    
+
     List<Tweet> findByInReplyToIdAndDeletedFalse(Long id);
+
+    List<Tweet> findByAuthor_IdAndDeletedFalse(Long id);
 
 
 }
