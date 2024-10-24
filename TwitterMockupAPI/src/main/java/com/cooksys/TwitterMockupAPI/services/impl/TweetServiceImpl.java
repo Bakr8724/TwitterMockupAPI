@@ -4,6 +4,7 @@ import com.cooksys.TwitterMockupAPI.dtos.TweetRequestDto;
 import com.cooksys.TwitterMockupAPI.dtos.UserResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.Tweet;
 import com.cooksys.TwitterMockupAPI.entities.User;
+import com.cooksys.TwitterMockupAPI.exceptions.BadRequestException;
 import com.cooksys.TwitterMockupAPI.exceptions.NotFoundException;
 import com.cooksys.TwitterMockupAPI.mappers.TweetMapper;
 import com.cooksys.TwitterMockupAPI.mappers.UserMapper;
@@ -56,7 +57,6 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<UserResponseDto> mentionedUsers(Long id) {
-        Tweet tweet = tweetId(id);
 
         List<User> users = userRepository.findMentions(id);
 
@@ -65,5 +65,20 @@ public class TweetServiceImpl implements TweetService {
         }
 
         return userMapper.entitiesToResponseDtos(users);
+    }
+
+    @Override
+    public List<TweetResponseDto> getTweetReplies(Long id){
+
+        Optional<Tweet> parentTweet = tweetRepository.nonDeletedTweetsByID(id);
+
+        if(parentTweet.isEmpty() || parentTweet.get().isDeleted()){
+            throw new NotFoundException("Tweet not found");
+        }
+
+        List<Tweet> tweets = tweetRepository.findByInReplyToIdAndDeletedFalse(id);
+
+
+        return tweetMapper.entitiesToResponseDtos(tweets);
     }
 }

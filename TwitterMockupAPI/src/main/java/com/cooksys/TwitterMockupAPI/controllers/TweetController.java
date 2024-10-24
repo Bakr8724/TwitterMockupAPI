@@ -45,4 +45,9 @@ public class TweetController {
         return tweetService.mentionedUsers(id);
     }
 
+    @GetMapping("/{id}/replies")
+    public List<TweetResponseDto> getTweetReplies(Long id){
+        return tweetService.getTweetReplies(id);
+    }
+
 }
