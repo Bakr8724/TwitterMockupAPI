@@ -19,14 +19,13 @@ public class ValidateServiceImpl implements ValidateService {
     return hashtagRepository.existsByLabel(hashtagLabel);
     }
 
-//    @Override
-//    public boolean userExists(String username) {
-//        return false;
-//        //placeholder method
-//    }
-//
-//    @Override
-//    public boolean isUserNameAvailable(String username){
-//        return userRepository.userExists(username);
-//    }
+    @Override
+    public boolean userExists(String username) {
+      return userRepository.existsByCredentialsUsername(username);
+    }
+
+    @Override
+    public boolean isUserNameAvailable(String username){
+        return !userRepository.existsByCredentialsUsername(username);
+    }
 }

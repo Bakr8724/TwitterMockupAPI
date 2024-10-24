@@ -19,10 +19,15 @@ public class ValidateController {
         return validateService.getHashtagExists(label);
     }
 
-//    @GetMapping("/username/available/{username}")
-//    public boolean isUserNameAvailable(@PathVariable String username){
-//    return validateService.isUserNameAvailable(username);
-//    }
+    @GetMapping("/username/exists/{username}")
+    public boolean userExists(@PathVariable String username){
+        return validateService.userExists(username);
+    }
+
+    @GetMapping("/username/available/{username}")
+    public boolean isUserNameAvailable(@PathVariable String username){
+    return validateService.isUserNameAvailable(username);
+    }
 
 
 }

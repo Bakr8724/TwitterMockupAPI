@@ -19,7 +19,5 @@ public interface UserRepository extends JpaRepository<User,Long>{
     @Query("Select u from User u where u.deleted = false")
     List<User> getActiveUsers();
 
-// boolean isUserNameAvailable(String username);
-//
-// boolean userExists(String username);
+    boolean existsByCredentialsUsername(String username);
 }
