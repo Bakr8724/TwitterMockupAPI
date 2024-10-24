@@ -20,6 +20,12 @@ public class ValidateServiceImpl implements ValidateService {
     }
 
 //    @Override
+//    public boolean userExists(String username) {
+//        return false;
+//        //placeholder method
+//    }
+//
+//    @Override
 //    public boolean isUserNameAvailable(String username){
 //        return userRepository.userExists(username);
 //    }

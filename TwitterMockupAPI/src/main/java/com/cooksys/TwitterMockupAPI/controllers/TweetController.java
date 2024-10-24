@@ -1,6 +1,7 @@
 package com.cooksys.TwitterMockupAPI.controllers;
 
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,33 +17,46 @@ import com.cooksys.TwitterMockupAPI.services.TweetService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 
-@RestController //spring converts to JSON, http handles json
-@RequiredArgsConstructor
+
+@RestController
+@AllArgsConstructor
 @RequestMapping("/tweets")
 public class TweetController {
-    //TODO: Implement the endpoints from the documentation
 
     private final TweetService tweetService;
 
-    @PostMapping
-    public TweetResponseDto createTweet(@RequestBody TweetRequestDto tweetRequestDto){
-        return tweetService.createTweet(tweetRequestDto);
-    }
+//    @PostMapping
+//    public TweetResponseDto createTweet(@RequestBody TweetRequestDto tweetRequestDto){
+//        return tweetService.createTweet(tweetRequestDto);
+//    }
+//
+//    @GetMapping
+//    public ContextDto getTweetContext(@PathVariable Long id){
+//        return tweetService.getTweetContext(id);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public TweetResponseDto getTweetById(@PathVariable Long id){
+//        return tweetService.getTweetById(id);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public TweetResponseDto deleteTweet(@PathVariable Long id){
+//        return tweetService.deleteTweet(id);
+//    }
 
+    //get tweets
     @GetMapping
-    public ContextDto getTweetContext(@PathVariable Long id){
-        return tweetService.getTweetContext(id);
+    public List<TweetResponseDto> getAllTweets(){
+        return tweetService.getAllTweets();
     }
 
+    //get tweet by id
     @GetMapping("/{id}")
     public TweetResponseDto getTweetById(@PathVariable Long id){
         return tweetService.getTweetById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public TweetResponseDto deleteTweet(@PathVariable Long id){
-        return tweetService.deleteTweet(id);
     }
     
 

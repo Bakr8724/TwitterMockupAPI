@@ -4,8 +4,10 @@ import com.cooksys.TwitterMockupAPI.dtos.UserRequestDto;
 import com.cooksys.TwitterMockupAPI.dtos.UserResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.User;
 import com.cooksys.TwitterMockupAPI.entities.embeddables.Credentials;
+import com.cooksys.TwitterMockupAPI.entities.embeddables.Profile;
 import com.cooksys.TwitterMockupAPI.exceptions.BadRequestException;
 import com.cooksys.TwitterMockupAPI.mappers.CredentialsMapper;
+import com.cooksys.TwitterMockupAPI.mappers.ProfileMapper;
 import com.cooksys.TwitterMockupAPI.mappers.UserMapper;
 import com.cooksys.TwitterMockupAPI.repositories.UserRepository;
 import com.cooksys.TwitterMockupAPI.services.UserService;
@@ -22,11 +24,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final CredentialsMapper credentialsMapper;
+    private final ProfileMapper profileMapper;
 
-//    @Override
-//List<UserResponseDto> getAllActiveUsers(){
-//        throw new UnsupportedOperationException("Unimplemented method");
-//    }
+    @Override
+    public List<UserResponseDto> getAllActiveUsers(){
+        List<User> users = userRepository.getActiveUsers();
+
+        return userMapper.entitiesToResponseDtos(users);
+    }
 
 @Override
 public UserResponseDto createUser(UserRequestDto userRequestDto){
@@ -58,9 +63,30 @@ public UserResponseDto createUser(UserRequestDto userRequestDto){
     return userMapper.entityToDto(createdUser);
 }
 
-//@Override
-//UserResponseDto getSpecificUser(){
-//    throw new UnsupportedOperationException("Unimplemented method");;
-//}
+@Override
+public UserResponseDto updateUser(String username, UserRequestDto userRequestDto){
+
+        Optional<User> optionalUser = userRepository.findByCredentialsUsername(username);
+
+   if(optionalUser.isEmpty() || optionalUser.get().isDeleted()){
+       throw new BadRequestException("User does not exist or is deleted.");
+   }
+
+   User existingUser = optionalUser.get();
+
+    if (userRequestDto.getCredentials() == null ||
+            !userRequestDto.getCredentials().getUsername().equals(existingUser.getCredentials().getUsername()) ||
+            !userRequestDto.getCredentials().getPassword().equals(existingUser.getCredentials().getPassword())) {
+        throw new BadRequestException("Credentials do not match.");
+    }
+
+
+   Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
+   existingUser.setProfile(updatedProfile);
+
+   User updatedUser = userRepository.save(existingUser);
+   return userMapper.entityToDto(updatedUser);
+}
+
 
 }

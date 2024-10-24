@@ -4,11 +4,11 @@ package com.cooksys.TwitterMockupAPI;
 import java.util.Arrays;
 import java.util.List;
 
+import com.cooksys.TwitterMockupAPI.entities.Tweet;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.cooksys.TwitterMockupAPI.entities.Hashtag;
-import com.cooksys.TwitterMockupAPI.entities.Tweet;
 import com.cooksys.TwitterMockupAPI.entities.User;
 import com.cooksys.TwitterMockupAPI.entities.embeddables.Credentials;
 import com.cooksys.TwitterMockupAPI.entities.embeddables.Profile;

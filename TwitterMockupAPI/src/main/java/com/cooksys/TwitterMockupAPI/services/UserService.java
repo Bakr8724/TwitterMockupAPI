@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface UserService {
 
-//   List<UserResponseDto> getAllActiveUsers();
+   List<UserResponseDto> getAllActiveUsers();
 
    UserResponseDto createUser(UserRequestDto userRequestDto);
 
-   //UserResponseDto getSpecificUser();
+   UserResponseDto updateUser(String username, UserRequestDto userRequestDto);
 }
