@@ -1,9 +1,14 @@
 package com.cooksys.TwitterMockupAPI.services.impl;
 
+import com.cooksys.TwitterMockupAPI.dtos.TweetRequestDto;
+import com.cooksys.TwitterMockupAPI.dtos.UserResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.Tweet;
+import com.cooksys.TwitterMockupAPI.entities.User;
 import com.cooksys.TwitterMockupAPI.exceptions.NotFoundException;
 import com.cooksys.TwitterMockupAPI.mappers.TweetMapper;
+import com.cooksys.TwitterMockupAPI.mappers.UserMapper;
 import com.cooksys.TwitterMockupAPI.repositories.TweetRepository;
+import com.cooksys.TwitterMockupAPI.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,18 @@ public class TweetServiceImpl implements TweetService {
 
     private TweetRepository tweetRepository;
     private TweetMapper tweetMapper;
+    private UserRepository userRepository;
+    private UserMapper userMapper;
+
+    private Tweet tweetId(Long id){
+        Optional<Tweet> optionalTweet = tweetRepository.nonDeletedTweetsByID(id);
+
+        if(optionalTweet.isEmpty()){
+            throw new NotFoundException("Tweet not found or deleted with id: " + id);
+        }
+
+        return optionalTweet.get();
+    }
 
     @Override
     public List<TweetResponseDto> getAllTweets() {
@@ -31,34 +48,22 @@ public class TweetServiceImpl implements TweetService {
     public TweetResponseDto getTweetById(Long id) {
         Optional<Tweet> optionalTweet = tweetRepository.findById(id);
 
-        if(optionalTweet.isEmpty()){
+        if (optionalTweet.isEmpty()) {
             throw new NotFoundException("No user found with id: " + id);
         }
         return tweetMapper.entityToResponseDto(optionalTweet.get());
     }
 
-//    @Override
-//    public TweetResponseDto createTweet(TweetRequestDto tweetRequestDto) {
-//        // TODO Auto-generated method stub
-//        throw new UnsupportedOperationException("Unimplemented method 'createTweet'");
-//    }
-//
-//    @Override
-//    public TweetResponseDto getTweetById(Long id) {
-//        // TODO Auto-generated method stub
-//        throw new UnsupportedOperationException("Unimplemented method 'getTweetById'");
-//    }
-//
-//    @Override
-//    public TweetResponseDto deleteTweet(Long id) {
-//        // TODO Auto-generated method stub
-//        throw new UnsupportedOperationException("Unimplemented method 'deleteTweet'");
-//    }
-//
-//    @Override
-//    public ContextDto getTweetContext(Long id) {
-//        // TODO Auto-generated method stub
-//        throw new UnsupportedOperationException("Unimplemented method 'getTweetContext'");
-//    }
-//
+    @Override
+    public List<UserResponseDto> mentionedUsers(Long id) {
+        Tweet tweet = tweetId(id);
+
+        List<User> users = userRepository.findMentions(id);
+
+        if (users.isEmpty()) {
+            throw new NotFoundException("Tweet not found");
+        }
+
+        return userMapper.entitiesToResponseDtos(users);
+    }
 }

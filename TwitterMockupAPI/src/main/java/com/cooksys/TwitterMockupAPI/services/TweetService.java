@@ -1,8 +1,6 @@
 package com.cooksys.TwitterMockupAPI.services;
 
-import com.cooksys.TwitterMockupAPI.dtos.ContextDto;
-import com.cooksys.TwitterMockupAPI.dtos.TweetRequestDto;
-import com.cooksys.TwitterMockupAPI.dtos.TweetResponseDto;
+import com.cooksys.TwitterMockupAPI.dtos.*;
 
 import java.util.List;
 
@@ -17,4 +15,7 @@ public interface TweetService {
     List<TweetResponseDto> getAllTweets();
 
     TweetResponseDto getTweetById(Long id);
+
+    List<UserResponseDto> mentionedUsers(Long id);
+
 }

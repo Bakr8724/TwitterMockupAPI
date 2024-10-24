@@ -1,7 +1,7 @@
 package com.cooksys.TwitterMockupAPI.services;
 
-import com.cooksys.TwitterMockupAPI.dtos.UserRequestDto;
-import com.cooksys.TwitterMockupAPI.dtos.UserResponseDto;
+import com.cooksys.TwitterMockupAPI.dtos.*;
+import com.cooksys.TwitterMockupAPI.entities.User;
 
 import java.util.List;
 
@@ -13,5 +13,11 @@ public interface UserService {
 
    UserResponseDto updateUser(String username, UserRequestDto userRequestDto);
 
-   UserResponseDto deleteUser(String username);
+   UserResponseDto deleteUser(String username, CredentialsDto credentialsDto);
+
+   UserResponseDto followUser(String username, CredentialsDto credentialsDto);
+
+//    List<TweetResponseDto> getFeed(String username);
+
+   //   List<UserResponseDto> getUserTweets(String username);
 }

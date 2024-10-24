@@ -1,8 +1,8 @@
 package com.cooksys.TwitterMockupAPI.controllers;
 
-import com.cooksys.TwitterMockupAPI.dtos.UserRequestDto;
-import com.cooksys.TwitterMockupAPI.dtos.UserResponseDto;
+import com.cooksys.TwitterMockupAPI.dtos.*;
 import com.cooksys.TwitterMockupAPI.entities.User;
+import com.cooksys.TwitterMockupAPI.entities.embeddables.Credentials;
 import com.cooksys.TwitterMockupAPI.mappers.UserMapper;
 import com.cooksys.TwitterMockupAPI.repositories.UserRepository;
 import com.cooksys.TwitterMockupAPI.services.UserService;
@@ -29,43 +29,30 @@ public class UserController {
     }
 
     @PatchMapping("/{username}")
-        public UserResponseDto updateUser(@PathVariable String username, @RequestBody UserRequestDto userRequestDto){
+    public UserResponseDto updateUser(@PathVariable String username, @RequestBody UserRequestDto userRequestDto){
         return userService.updateUser(username, userRequestDto);
 
     }
 
     @DeleteMapping("/{username}")
-    public UserResponseDto deleteUser(@PathVariable String username){
-        return userService.deleteUser(username);
+    public UserResponseDto deleteUser(@PathVariable String username, CredentialsDto credentialsDto){
+        return userService.deleteUser(username, credentialsDto);
         }
 
 
-//    @PostMapping("/{username}/follow"){
-//
-//    }
-//
-//    @PostMapping("/{username}/unfollow"){
-//
-//    }
-//
-//    @GetMapping("/{username}/feed"){
-//
-//    }
-//
-//    @GetMapping("/{username}/tweets"){
-//
-//    }
-//
-//    @GetMapping("/{username}/mentions"){
-//
-//    }
-//
-//    @GetMapping("/{username}/followers"){
-//
-//    }
-//
-//    @GetMapping("/{username}/following"){
-//
+    @PostMapping("/{username}/follow")
+    public UserResponseDto followUser(@PathVariable String username, @RequestBody CredentialsDto credentialsDto){
+        return userService.followUser(username, credentialsDto);
+    }
+
+//    @GetMapping("/{username}/feed")
+//    public List<TweetResponseDto> getFeed(@PathVariable String username){
+//    return tweetService.getFeed(username);
 //    }
 
+    //    @GetMapping("/{username}/tweets")
+//    public List<UserResponseDto> getUserTweets(@PathVariable String username){
+//        return userService.getUserTweets(username);
+//    }
+//
 }
