@@ -242,6 +242,62 @@ public List<UserResponseDto> getUserFollowing(String username){
 
         return userMapper.entitiesToResponseDtos(userFollowers);
     }
+    @Override
+    public List<TweetResponseDto> getMentions(String username) {
+        //check if user exists
+        Optional<User> optionalUser = userRepository.findByCredentialsUsername(username);
 
+        if(optionalUser.isEmpty() || optionalUser.get().isDeleted()){
+            throw new NotFoundException("User not found");
+        }
+
+        List<Tweet> tweets = userRepository.findMentions(username);
+
+        return tweetMapper.entitiesToResponseDtos(tweets);
+
+
+    }
+
+    @Override
+    public UserResponseDto unFollowUser(String username, CredentialsDto credentialsDto) {
+        //check if there is a prexisting following relationship between the two users
+        //if no prexisitng following, or no user exists, or credentails dont match, send an error.
+
+        //get url username
+        Optional<User> userToUnFollow = userRepository.findByCredentialsUsername(username);
+
+        //check if url username exists in the database
+        if(userToUnFollow.isEmpty() || userToUnFollow.get().isDeleted()){
+            throw new NotFoundException("User not found");
+        }
+
+        //get the username from the requestbody
+        Optional<User> optionalUser = userRepository.findByCredentialsUsername(credentialsDto.getUsername());
+
+        //check if the credentials username exists
+        if(optionalUser.isEmpty() || optionalUser.get().isDeleted()){
+            throw new NotFoundException("wrong credentials try again: + " + optionalUser);
+        }
+        //check password creds
+        if(!credentialsDto.getPassword().equals(optionalUser.get().getCredentials().getPassword())){
+            throw new BadRequestException("Credentials password do not match");
+        }
+
+
+        User unFollow = optionalUser.get();
+        User unFollowingThisPerson = userToUnFollow.get();
+
+        if(!unFollow.getFollowing().contains(unFollowingThisPerson)){
+            throw new BadRequestException("You aren't following this person");
+        }
+
+        unFollow.getFollowing().remove(unFollowingThisPerson);
+        unFollowingThisPerson.getFollowing().remove(unFollow);
+        userRepository.save(unFollow);
+        userRepository.save(unFollowingThisPerson);
+
+        return userMapper.entityToDto(unFollow);
+
+    }
 
 }

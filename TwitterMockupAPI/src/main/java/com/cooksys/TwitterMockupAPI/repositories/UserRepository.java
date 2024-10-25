@@ -1,9 +1,11 @@
 package com.cooksys.TwitterMockupAPI.repositories;
 
+import com.cooksys.TwitterMockupAPI.entities.Tweet;
 import com.cooksys.TwitterMockupAPI.entities.User;
 import com.cooksys.TwitterMockupAPI.entities.embeddables.Credentials;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,5 +34,6 @@ public interface UserRepository extends JpaRepository<User,Long>{
     List<User> findUsersByLikedTweet(Long id);
 //also possible to do above with derive List<User> findByMentionedUsers_IdAndDeletedFalse(Long id)
 
-
+    @Query("SELECT t FROM Tweet t WHERE t.deleted = false AND t.content LIKE %:username% ORDER BY t.posted DESC")
+    List<Tweet> findMentions(@Param("username") String username);
 }

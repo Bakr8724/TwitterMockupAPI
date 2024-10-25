@@ -264,4 +264,5 @@ public class TweetServiceImpl implements TweetService {
         return hashTagMapper.entitiesToDtos(tweet.getHashtags());
 
     }
+
 }
