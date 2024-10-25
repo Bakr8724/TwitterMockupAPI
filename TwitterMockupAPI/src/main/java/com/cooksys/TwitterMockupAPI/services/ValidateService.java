@@ -4,17 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public interface ValidateService {
 
-//    public validateHashTag(){
-//
-//    }
-//
-//
-//    public validateUserName(){
-//
-//    }
-//
-//
-//    public isUserNameAvailable(){
-//
-//    }
+    boolean getHashtagExists(String label);
+
+   boolean userExists(String username);
+
+    boolean isUserNameAvailable(String username);
+
 }

@@ -1,17 +1,37 @@
 package com.cooksys.TwitterMockupAPI.services;
 
-import com.cooksys.TwitterMockupAPI.dtos.ContextDto;
-import com.cooksys.TwitterMockupAPI.dtos.TweetRequestDto;
-import com.cooksys.TwitterMockupAPI.dtos.TweetResponseDto;
+import com.cooksys.TwitterMockupAPI.dtos.*;
+import com.cooksys.TwitterMockupAPI.entities.Tweet;
+
+import java.util.List;
 
 public interface TweetService {
 
-    TweetResponseDto createTweet(TweetRequestDto tweetRequestDto);
 
+    List<TweetResponseDto> getAllTweets();
 
     TweetResponseDto getTweetById(Long id);
 
-    TweetResponseDto deleteTweet(Long id);
+    List<UserResponseDto> mentionedUsers(Long id);
 
-    ContextDto getTweetContext(Long id);
+    List<TweetResponseDto> getTweetReplies(Long id);
+
+    TweetResponseDto repostTweet(Long id, TweetRequestDto tweetRequestDto);
+
+    void postLike(Long id, CredentialsDto credentialsDto);
+
+    List<HashtagDto> getTagById(Long id);
+
+    List<TweetResponseDto> getReposts(Long id);
+
+    List<UserResponseDto> getLikes(Long id);
+
+    ContextDto getContext(Long id);
+
+    TweetResponseDto deleteTweet(Long id, CredentialsDto credentialsDto);
+
+    TweetResponseDto postTweet(TweetRequestDto tweetRequestDto);
+
+    TweetResponseDto postReply(Long id, TweetRequestDto tweetRequestDto);
+
 }
