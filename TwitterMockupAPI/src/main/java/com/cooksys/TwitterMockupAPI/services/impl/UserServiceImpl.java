@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> getAllActiveUsers(){
-        List<User> users = userRepository.findByDeletedFalse();
+        List<User> users = userRepository.getActiveUsers();
         return userMapper.entitiesToResponseDtos(users);
     }
 
@@ -66,9 +66,9 @@ public UserResponseDto createUser(UserRequestDto userRequestDto){
         createdUser = userMapper.requestDtoToEntity(userRequestDto);
     }
 
-    if(existingUser.isPresent()){
-        throw new BadRequestException("User already exists");
-    }
+//    if(existingUser.isPresent()){
+//        throw new BadRequestException("User already exists");
+//    }
 
 
         userRepository.saveAndFlush(createdUser);
