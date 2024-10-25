@@ -34,13 +34,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> getAllActiveUsers(){
-        List<User> users = userRepository.getActiveUsers();
-
+        List<User> users = userRepository.findByDeletedFalse();
         return userMapper.entitiesToResponseDtos(users);
     }
 
 @Override
 public UserResponseDto createUser(UserRequestDto userRequestDto){
+
 
     if(userRequestDto.getProfile() == null || userRequestDto.getCredentials() == null){
         throw new BadRequestException("Profile or Credentials cannot be null");
@@ -62,10 +62,16 @@ public UserResponseDto createUser(UserRequestDto userRequestDto){
     if(existingUser.isPresent()){
         createdUser = existingUser.get();
         createdUser.setDeleted(false);
-    } else{
+    } else {
         createdUser = userMapper.requestDtoToEntity(userRequestDto);
     }
-    userRepository.saveAndFlush(createdUser);
+
+    if(existingUser.isPresent()){
+        throw new BadRequestException("User already exists");
+    }
+
+
+        userRepository.saveAndFlush(createdUser);
     return userMapper.entityToDto(createdUser);
 }
 
