@@ -192,7 +192,6 @@ List<Tweet> userTweets = tweetRepository.nonDeletedTweets();
 
 return tweetMapper.entitiesToResponseDtos(userTweets);
 
-// needs to be in reverse
 }
 
 @Override

@@ -51,8 +51,6 @@ public class HashtagServiceImpl implements HashtagService {
         }
 
         return tweetMapper.entitiesToResponseDtos(tweets);
-
-        //needs to be in reverse
     }
 
     }
