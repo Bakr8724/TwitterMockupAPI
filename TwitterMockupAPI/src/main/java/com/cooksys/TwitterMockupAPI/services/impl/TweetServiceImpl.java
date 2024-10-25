@@ -118,6 +118,7 @@ public class TweetServiceImpl implements TweetService {
         if (optionalTweet.isEmpty()) {
             throw new NotFoundException("No user found with id: " + id);
         }
+
         return tweetMapper.entityToResponseDto(optionalTweet.get());
     }
 
