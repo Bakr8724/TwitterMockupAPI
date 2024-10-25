@@ -23,6 +23,8 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     List<User> findByFollowersIdAndDeletedFalse(Long id);
 
+    List<User> findByFollowingIdAndDeletedFalse(Long id);
+
 @Query("Select users from User users join users.mentionedUsers mu where mu.id = :id and users.deleted = false")
     List<User> findMentions(Long id);
 

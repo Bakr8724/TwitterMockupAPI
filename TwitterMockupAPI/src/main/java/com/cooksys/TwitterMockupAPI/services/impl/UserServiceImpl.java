@@ -197,16 +197,22 @@ return tweetMapper.entitiesToResponseDtos(userTweets);
 
 @Override
 public List<UserResponseDto> getUserFollowing(String username){
+
     Optional<User> optionalUser = userRepository.findByCredentialsUsername(username);
 
     if(optionalUser.isEmpty() || optionalUser.get().isDeleted()){
         throw new NotFoundException("User not found");
     }
-User user = optionalUser.get();
+    User user = optionalUser.get();
     List<User> userFollowing = userRepository.findByFollowersIdAndDeletedFalse(user.getId());
+
+    if(userFollowing.isEmpty()){
+        throw new NotFoundException("User not following anyone");
+    }
 
         return userMapper.entitiesToResponseDtos(userFollowing);
 }
+
     @Override
     public UserResponseDto getUser(String username) {
         Optional<User> optionalUser = userRepository.findByCredentialsUsername(username);
@@ -228,7 +234,7 @@ User user = optionalUser.get();
         }
         //is this correct: findByFollowersIdAndDeletedFalse?  confirmed works
         User user = optionalUser.get();
-        List<User> userFollowers = userRepository.findByFollowersIdAndDeletedFalse(user.getId());
+        List<User> userFollowers = userRepository.findByFollowingIdAndDeletedFalse(user.getId());
 
         if(userFollowers.isEmpty()){
             throw new NotFoundException("User has no followers");
