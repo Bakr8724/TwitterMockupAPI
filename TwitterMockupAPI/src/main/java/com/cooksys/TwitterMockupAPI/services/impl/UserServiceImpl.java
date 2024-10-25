@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> getAllActiveUsers(){
-        List<User> users = userRepository.getActiveUsers();
+        List<User> users = userRepository.findByDeletedFalse();
         return userMapper.entitiesToResponseDtos(users);
     }
 
@@ -92,11 +92,10 @@ public UserResponseDto updateUser(String username, UserRequestDto userRequestDto
         throw new BadRequestException("Credentials do not match.");
     }
 
-
-
 //   Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
 //   existingUser.setProfile(updatedProfile);
     // this is a post method overriding whole profile when we need to do individually for each field. use if block
+
     if (userRequestDto.getProfile() != null) {
         Profile existingProfile = existingUser.getProfile();
 
