@@ -1,6 +1,7 @@
 package com.cooksys.TwitterMockupAPI.services;
 
 import com.cooksys.TwitterMockupAPI.dtos.HashtagDto;
+import com.cooksys.TwitterMockupAPI.dtos.TweetResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.Hashtag;
 import com.cooksys.TwitterMockupAPI.entities.Tweet;
 
@@ -11,5 +12,5 @@ public interface HashtagService {
 
     List<HashtagDto> getAllTags();
 
-    List<Tweet> getTweetsByHashTag(String label);
+    List<TweetResponseDto> getTweetsByHashTag(String label);
 }

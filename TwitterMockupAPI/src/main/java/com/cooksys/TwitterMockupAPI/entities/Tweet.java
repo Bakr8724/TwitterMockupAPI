@@ -37,7 +37,6 @@ public class Tweet {
     
     private String content;
 
-
     //many tweets can reply to one tweet (parent tweet)
     @ManyToOne
     private Tweet inReplyTo;

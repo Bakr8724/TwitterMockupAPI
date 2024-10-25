@@ -26,6 +26,8 @@ public interface UserRepository extends JpaRepository<User,Long>{
 @Query("Select users from User users join users.mentionedUsers mu where mu.id = :id and users.deleted = false")
     List<User> findMentions(Long id);
 
+    @Query("SELECT u FROM User u JOIN u.likedTweets t WHERE t.id = :id AND u.deleted = false")
+    List<User> findUsersByLikedTweet(Long id);
 //also possible to do above with derive List<User> findByMentionedUsers_IdAndDeletedFalse(Long id)
 
 

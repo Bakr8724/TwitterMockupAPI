@@ -1,6 +1,7 @@
 package com.cooksys.TwitterMockupAPI.controllers;
 
 
+import com.cooksys.TwitterMockupAPI.dtos.TweetResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.Tweet;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hashtags")
+@RequestMapping("/tags")
 @RequiredArgsConstructor
 public class HashtagController {
 
-    private HashtagService hashtagService;
+    private final HashtagService hashtagService;
 
     @GetMapping
     public List<HashtagDto> getAllTags(){
@@ -25,8 +26,9 @@ public class HashtagController {
     }
 
     @GetMapping("/{label}")
-    public List<Tweet> getTweetsByHashTag(@PathVariable String label){
-        return hashtagService.getTweetsByHashTag(label);
+    public List<TweetResponseDto> getTweetsByHashTag(@PathVariable String label){
+        String formatLabel = "#" + label;
+        return hashtagService.getTweetsByHashTag(formatLabel);
     }
 
 }

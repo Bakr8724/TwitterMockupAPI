@@ -1,5 +1,6 @@
 package com.cooksys.TwitterMockupAPI.services.impl;
 
+import com.cooksys.TwitterMockupAPI.dtos.TweetResponseDto;
 import com.cooksys.TwitterMockupAPI.entities.Tweet;
 import com.cooksys.TwitterMockupAPI.exceptions.NotFoundException;
 import com.cooksys.TwitterMockupAPI.mappers.HashTagMapper;
@@ -34,18 +35,24 @@ public class HashtagServiceImpl implements HashtagService {
     }
 
     @Override
-    public List<Tweet> getTweetsByHashTag(String label){
+    public List<TweetResponseDto> getTweetsByHashTag(String label){
 
-    Optional<Hashtag> optionalHashtag = hashtagRepository.findByHashtagId();
+        Optional<Hashtag> optionalHashtag = hashtagRepository.findByLabel(label);
 
-    if(optionalHashtag.isEmpty()){
-        throw  new NotFoundException("Hashtag does not exist");
-    }
+        if(optionalHashtag.isEmpty()){
+            throw new NotFoundException("Hashtag does not exist");
+        }
+        Hashtag hashtag = optionalHashtag.get();
 
-    Hashtag hashtag = optionalHashtag.get();
+        List<Tweet> tweets = tweetRepository.findByHashtagsContainingAndDeletedFalseOrderByPostedDesc(hashtag);
 
-        findByTweetIdAndDeletedFalse();
-        return tweetMapper.entitiesToResponseDtos();
+        if(tweets.isEmpty()){
+            throw new NotFoundException("No tweets found");
+        }
+
+        return tweetMapper.entitiesToResponseDtos(tweets);
+
+        //needs to be in reverse
     }
 
     }
