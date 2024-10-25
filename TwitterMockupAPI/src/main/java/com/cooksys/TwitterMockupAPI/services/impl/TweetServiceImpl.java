@@ -29,14 +29,16 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class TweetServiceImpl implements TweetService {
 
-    private TweetRepository tweetRepository;
-    private TweetMapper tweetMapper;
-    private UserRepository userRepository;
-    private UserMapper userMapper;
-    private CredentialsMapper credentialsMapper;
-    private HashTagMapper hashTagMapper;
-    private HashtagRepository hashtagRepository;
+    private final TweetRepository tweetRepository;
+    private final TweetMapper tweetMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final CredentialsMapper credentialsMapper;
+    private final HashTagMapper hashTagMapper;
+    private final HashtagRepository hashtagRepository;
 
+
+    //helper method
     private Tweet tweetId(Long id){
         Optional<Tweet> optionalTweet = tweetRepository.nonDeletedTweetsByID(id);
 
@@ -47,6 +49,7 @@ public class TweetServiceImpl implements TweetService {
         return optionalTweet.get();
     }
 
+    //helper method
     private void parseHashtags(Tweet tweet){
         if (tweet.getHashtags() == null) {
             tweet.setHashtags(new ArrayList<>());
@@ -104,6 +107,8 @@ public class TweetServiceImpl implements TweetService {
         tweetRepository.saveAndFlush(tweet);
     }
 
+
+
     @Override
     public List<TweetResponseDto> getAllTweets() {
         List<Tweet> tweets = tweetRepository.nonDeletedTweets();
@@ -113,12 +118,15 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public TweetResponseDto getTweetById(Long id) {
+
         Optional<Tweet> optionalTweet = tweetRepository.findById(id);
+        if(optionalTweet == null){
+            throw new BadRequestException("null id");
+        }
 
         if (optionalTweet.isEmpty()) {
             throw new NotFoundException("No user found with id: " + id);
         }
-
         return tweetMapper.entityToResponseDto(optionalTweet.get());
     }
 
@@ -149,7 +157,12 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public TweetResponseDto repostTweet(Long id, TweetRequestDto tweetRequestDto){
+
         Optional<Tweet> optionalTweet = tweetRepository.findById(id);
+
+        if(id == null){
+            throw new BadRequestException("null id");
+        }
 
         if(optionalTweet.isEmpty() || optionalTweet.get().isDeleted()){
             throw new NotFoundException("Tweet not found");
@@ -173,6 +186,8 @@ public class TweetServiceImpl implements TweetService {
         return tweetMapper.entityToResponseDto(repostTweet);
     }
 
+
+
     @Override
     public TweetResponseDto postTweet(TweetRequestDto tweetRequestDto) {
         //check if credentials match an active user
@@ -180,6 +195,7 @@ public class TweetServiceImpl implements TweetService {
 
 
         Optional<User> optionalUser = userRepository.findByCredentialsUsername(credentials.getUsername());
+
         if(optionalUser.isEmpty()){
             throw new NotFoundException("No active user found");
         }
@@ -191,14 +207,20 @@ public class TweetServiceImpl implements TweetService {
         newTweet.setAuthor(author);
         newTweet.setContent(tweetRequestDto.getContent());
 
+
         //save
         tweetRepository.saveAndFlush(newTweet);
 
-        //get the mentions and hashtags
+        //parse hashtags and mentions
+        parseHashtags(newTweet);
+        parseMentions(newTweet);
+
 
         //return
         return tweetMapper.entityToResponseDto(newTweet);
     }
+
+
 
     @Override
     public void postLike(Long id, CredentialsDto credentialsDto) {
@@ -242,7 +264,10 @@ public class TweetServiceImpl implements TweetService {
         //save the reply
         tweetRepository.saveAndFlush(postReply);
 
-        //gotta process the hashtag and mentions
+        //parse hashtags and mentions
+        parseHashtags(postReply);
+        parseMentions(postReply);
+
 
         //return it
         return tweetMapper.entityToResponseDto(postReply);
