@@ -93,11 +93,32 @@ public UserResponseDto updateUser(String username, UserRequestDto userRequestDto
     }
 
 
-   Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
-   existingUser.setProfile(updatedProfile);
 
-   Credentials userCreds = credentialsMapper.dtoToEntity(userRequestDto.getCredentials());
-   existingUser.setCredentials(userCreds);
+//   Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
+//   existingUser.setProfile(updatedProfile);
+    // this is a post method overriding whole profile when we need to do individually for each field. use if block
+    if (userRequestDto.getProfile() != null) {
+        Profile existingProfile = existingUser.getProfile();
+
+        if (userRequestDto.getProfile().getFirstName() != null && !userRequestDto.getProfile().getFirstName().isEmpty()) {
+            existingProfile.setFirstName(userRequestDto.getProfile().getFirstName());
+        }
+
+        if (userRequestDto.getProfile().getLastName() != null && !userRequestDto.getProfile().getLastName().isEmpty()) {
+            existingProfile.setLastName(userRequestDto.getProfile().getLastName());
+        }
+
+        if (userRequestDto.getProfile().getEmail() != null && !userRequestDto.getProfile().getEmail().isEmpty()) {
+            existingProfile.setEmail(userRequestDto.getProfile().getEmail());
+        } else {
+            throw new BadRequestException("Email cannot be null or empty.");
+        }
+
+        if (userRequestDto.getProfile().getPhone() != null && !userRequestDto.getProfile().getPhone().isEmpty()) {
+            existingProfile.setPhone(userRequestDto.getProfile().getPhone());
+        }
+    }
+
 
    User updatedUser = userRepository.save(existingUser);
    return userMapper.entityToDto(updatedUser);
