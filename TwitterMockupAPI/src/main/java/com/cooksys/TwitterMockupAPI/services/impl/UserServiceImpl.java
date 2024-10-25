@@ -96,6 +96,12 @@ public UserResponseDto updateUser(String username, UserRequestDto userRequestDto
    Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
    existingUser.setProfile(updatedProfile);
 
+   Credentials userCreds = credentialsMapper.dtoToEntity(userRequestDto.getCredentials());
+   userCreds.setPassword(userRequestDto.getCredentials().getPassword());
+   userCreds.setUsername(userRequestDto.getCredentials().getUsername());
+
+   existingUser.setCredentials(userCreds);
+
    User updatedUser = userRepository.save(existingUser);
    return userMapper.entityToDto(updatedUser);
 }
