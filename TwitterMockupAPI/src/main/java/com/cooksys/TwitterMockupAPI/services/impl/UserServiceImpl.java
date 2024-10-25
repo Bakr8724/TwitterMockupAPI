@@ -35,12 +35,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDto> getAllActiveUsers(){
         List<User> users = userRepository.getActiveUsers();
-
         return userMapper.entitiesToResponseDtos(users);
     }
 
 @Override
 public UserResponseDto createUser(UserRequestDto userRequestDto){
+
 
     if(userRequestDto.getProfile() == null || userRequestDto.getCredentials() == null){
         throw new BadRequestException("Profile or Credentials cannot be null");
@@ -62,10 +62,16 @@ public UserResponseDto createUser(UserRequestDto userRequestDto){
     if(existingUser.isPresent()){
         createdUser = existingUser.get();
         createdUser.setDeleted(false);
-    } else{
+    } else {
         createdUser = userMapper.requestDtoToEntity(userRequestDto);
     }
-    userRepository.saveAndFlush(createdUser);
+
+    if(existingUser.isPresent()){
+        throw new BadRequestException("User already exists");
+    }
+
+
+        userRepository.saveAndFlush(createdUser);
     return userMapper.entityToDto(createdUser);
 }
 
@@ -86,9 +92,32 @@ public UserResponseDto updateUser(String username, UserRequestDto userRequestDto
         throw new BadRequestException("Credentials do not match.");
     }
 
+//   Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
+//   existingUser.setProfile(updatedProfile);
+    // this is a post method overriding whole profile when we need to do individually for each field. use if block
 
-   Profile updatedProfile = profileMapper.dtoToEntity(userRequestDto.getProfile());
-   existingUser.setProfile(updatedProfile);
+    if (userRequestDto.getProfile() != null) {
+        Profile existingProfile = existingUser.getProfile();
+
+        if (userRequestDto.getProfile().getFirstName() != null && !userRequestDto.getProfile().getFirstName().isEmpty()) {
+            existingProfile.setFirstName(userRequestDto.getProfile().getFirstName());
+        }
+
+        if (userRequestDto.getProfile().getLastName() != null && !userRequestDto.getProfile().getLastName().isEmpty()) {
+            existingProfile.setLastName(userRequestDto.getProfile().getLastName());
+        }
+
+        if (userRequestDto.getProfile().getEmail() != null && !userRequestDto.getProfile().getEmail().isEmpty()) {
+            existingProfile.setEmail(userRequestDto.getProfile().getEmail());
+        } else {
+            throw new BadRequestException("Email cannot be null or empty.");
+        }
+
+        if (userRequestDto.getProfile().getPhone() != null && !userRequestDto.getProfile().getPhone().isEmpty()) {
+            existingProfile.setPhone(userRequestDto.getProfile().getPhone());
+        }
+    }
+
 
    User updatedUser = userRepository.save(existingUser);
    return userMapper.entityToDto(updatedUser);
